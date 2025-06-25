@@ -1,6 +1,6 @@
 import 'package:feed/controller/review_controller.dart';
 import 'package:feed/widgets/action_button.dart';
-import 'package:feed/widgets/review_card.dart';
+import 'package:feed/widgets/review/review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: const Color(0xFFF2F2F8),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -45,7 +45,6 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: [
           ActionButtons(),
-          _buildQatarBanner(),
           Expanded(
             child: Obx(() {
               if (reviewController.isLoading.value) {
@@ -54,9 +53,21 @@ class HomePage extends StatelessWidget {
 
               return ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: reviewController.reviews.length,
+                itemCount:
+                    reviewController.reviews.length + 1, // +1 for the banner
                 itemBuilder: (context, index) {
-                  final review = reviewController.reviews[index];
+                  if (index == 0) {
+                    // First item is the banner
+                    return Column(
+                      children: [
+                        _buildQatarBanner(),
+                        const SizedBox(height: 25),
+                      ],
+                    );
+                  }
+
+                  // Subtract 1 from index since banner takes index 0
+                  final review = reviewController.reviews[index - 1];
                   return ReviewCard(review: review);
                 },
               );
@@ -79,7 +90,16 @@ class HomePage extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
       ),
-      child: Image.asset('lib/assets/images/image 8.png'),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image.asset(
+          'lib/assets/images/image 8.png',
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit
+              .cover, // This ensures the image covers the entire container
+        ),
+      ),
     );
   }
 }

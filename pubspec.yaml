@@ -25,3 +25,11 @@ flutter:
   uses-material-design: true
   assets: 
     - lib/assets/images/image 8.png
+    - lib/assets/svgs/user_switch.svg
+    - lib/assets/svgs/user_question.svg
+    - lib/assets/svgs/up_arrow.svg
+    - lib/assets/svgs/share.svg
+    - lib/assets/svgs/reply.svg
+    - lib/assets/svgs/thumbs_up.svg
+    - lib/assets/svgs/search.svg
+    - lib/assets/svgs/send.svg

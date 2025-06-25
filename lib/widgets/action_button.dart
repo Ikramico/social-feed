@@ -1,5 +1,6 @@
 import 'package:feed/controller/navigation_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ActionButtons extends StatelessWidget {
@@ -12,7 +13,6 @@ class ActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      color: Colors.white,
       child: Column(
         children: [
           Row(
@@ -21,7 +21,7 @@ class ActionButtons extends StatelessWidget {
                 child: _buildActionButton(
                   context,
                   'Share Your Experience',
-                  Icons.person,
+                  'lib/assets/svgs/user_switch.svg', // Pass the path as string
                   () => navigationController.navigateToShareExperience(context),
                 ),
               ),
@@ -30,13 +30,13 @@ class ActionButtons extends StatelessWidget {
                 child: _buildActionButton(
                   context,
                   'Ask A Question',
-                  Icons.chat_bubble_outline,
+                  'lib/assets/svgs/user_question.svg',
                   () => navigationController.navigateToAskQuestion(context),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 24),
           _buildSearchButton(context),
         ],
       ),
@@ -46,7 +46,7 @@ class ActionButtons extends StatelessWidget {
   Widget _buildActionButton(
     BuildContext context,
     String text,
-    IconData icon,
+    String svgPath, 
     VoidCallback onPressed,
   ) {
     return ElevatedButton(
@@ -61,47 +61,56 @@ class ActionButtons extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          
           Flexible(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
               overflow: TextOverflow.ellipsis,
             ),
-            
           ),
           const SizedBox(width: 8),
-          Icon(icon, size: 18),
-          
+          SvgPicture.asset(
+            svgPath,
+            width: 25,
+            height: 25,
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildSearchButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => navigationController.navigateToSearch(context),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          elevation: 0,
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.search, size: 18),
-            SizedBox(width: 8),
-            Text(
-              'Search',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
+  return SizedBox(
+    width: double.infinity,
+    child: ElevatedButton(
+      onPressed: () => navigationController.navigateToSearch(context),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        elevation: 0,
       ),
-    );
-  }
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          
+          const Text(
+            'Search',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(width: 8),
+          SvgPicture.asset(
+              'lib/assets/svgs/search.svg',
+              width: 24,
+              height: 24,
+              
+            ),
+            
+        ],
+      ),
+    ),
+  );
+}
 }
