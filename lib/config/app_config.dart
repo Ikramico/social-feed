@@ -1,5 +1,5 @@
 import 'package:feed/views/ask_question.dart';
-import 'package:feed/views/exp_share_page.dart';
+import 'package:feed/views/share_expe/exp_share_page.dart';
 import 'package:feed/views/home_page.dart';
 import 'package:feed/views/search_page.dart';
 import 'package:flutter/material.dart';
