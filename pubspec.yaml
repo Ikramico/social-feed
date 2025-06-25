@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   cached_network_image: ^3.4.1
+  dotted_border: ^3.0.1
   flutter:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
@@ -25,6 +26,7 @@ flutter:
   uses-material-design: true
   assets: 
     - lib/assets/images/image 8.png
+    - lib/assets/images/image-upload.png
     - lib/assets/svgs/user_switch.svg
     - lib/assets/svgs/user_question.svg
     - lib/assets/svgs/up_arrow.svg

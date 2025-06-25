@@ -1,3 +1,5 @@
+
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class ShareExperiencePage extends StatefulWidget {
@@ -11,7 +13,7 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
   String? selectedDepartureAirport;
   String? selectedArrivalAirport;
   String? selectedAirline;
-  String? selectedClass = 'Any';
+  String? selectedClass ;
   DateTime? selectedDate;
   int rating = 0;
   final TextEditingController messageController = TextEditingController();
@@ -27,7 +29,7 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.5),
+      backgroundColor: Colors.black,
       body: Center(
         child: Container(
           margin: const EdgeInsets.all(20),
@@ -38,7 +40,6 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Row(
@@ -64,60 +65,61 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
                 ),
               ),
 
-              // Content
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    // Image Upload Section
-                    Container(
-                      height: 120,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF5F5F5),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Colors.grey.shade300,
-                          style: BorderStyle.solid,
-                          width: 1,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.flight_takeoff,
-                            size: 40,
-                            color: Colors.grey.shade600,
-                          ),
-                          const SizedBox(height: 8),
-                          RichText(
-                            text: TextSpan(
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                              ),
-                              children: [
-                                const TextSpan(
-                                  text: 'Drop Your Image Here Or ',
-                                ),
-                                TextSpan(
-                                  text: 'Browse',
-                                  style: TextStyle(
-                                    color: Colors.blue.shade600,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  DottedBorder(
+  options: RectDottedBorderOptions(
+    strokeWidth: 1,
+    dashPattern: [6, 3],
+    color: const Color.fromARGB(255, 209, 209, 230) 
+  ),
+  child: Container(
+    height: 200,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: const Color(0xFFF8F8FF),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset('lib/assets/images/image-upload.png'),
+        const SizedBox(height: 8),
+        RichText(
+          text: TextSpan(
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.black,
+            ),
+            children: [
+              const TextSpan(
+                text: 'Drop Your Image Here Or ',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700
+                )
+              ),
+              TextSpan(
+                text: 'Browse',
+                style: TextStyle(
+                  color:const Color(0xFF364AFF),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Color(0xFF364AFF)
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+  const SizedBox(height: 20),
 
-                    const SizedBox(height: 20),
-
-                    // Departure Airport Dropdown
                     _buildDropdownField(
                       'Departure Airport',
                       selectedDepartureAirport,
@@ -132,7 +134,6 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
 
                     const SizedBox(height: 16),
 
-                    // Arrival Airport Dropdown
                     _buildDropdownField(
                       'Arrival Airport',
                       selectedArrivalAirport,
@@ -175,7 +176,9 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
                     Container(
                       height: 120,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF5F5F5),
+                        border: Border.all(width: 1,
+                         color: Colors.grey[300]!
+                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: TextField(
@@ -252,7 +255,7 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
 
                         // Rating
                         Expanded(
-                          child: Column(
+                          child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
@@ -263,7 +266,7 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
                                   color: Colors.black,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(width: 8),
                               Row(
                                 children: List.generate(5, (index) {
                                   return GestureDetector(
@@ -287,12 +290,10 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
 
                     const SizedBox(height: 30),
 
-                    // Submit Button
                     SizedBox(
-                      width: double.infinity,
+                      width: 200,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Handle submit
                           Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
@@ -332,14 +333,17 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
   ) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F5),
-        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: Colors.grey[300]!,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: DropdownButtonFormField<String>(
         value: selectedValue,
         decoration: InputDecoration(
           hintText: label,
-          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w400),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
