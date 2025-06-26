@@ -208,25 +208,47 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
             style: TextStyle(fontSize: 16),
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-                Navigator.of(context).pop(); // Close share experience page
-                // Optionally navigate to feed page
-                // Get.toNamed('/feed');
-              },
-              child: const Text('View Feed'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-                _resetForm(); // Reset form for new entry
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Share Another'),
+            // Moved buttons to the left and stacked vertically
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close dialog
+                      Navigator.of(
+                        context,
+                      ).pop(); // Close share experience page
+                      // Optionally navigate to feed page
+                      // Get.toNamed('/feed');
+                    },
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('View Feed'),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close dialog
+                      _resetForm(); // Reset form for new entry
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      alignment: Alignment.centerLeft,
+                    ),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Share Another'),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         );
@@ -251,147 +273,148 @@ class _ShareExperiencePageState extends State<ShareExperiencePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ShareExperienceHeaderWidget(
-                title: 'Share Experience',
-                onClose: () => Navigator.pop(context),
-              ),
+      body: Container(
+        // Added top margin to position the page lower
+        margin: const EdgeInsets.only(top: 80, left: 20, right: 20, bottom: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ShareExperienceHeaderWidget(
+              title: 'Share Experience',
+              onClose: () => Navigator.pop(context),
+            ),
 
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
 
-                      ImageUploadWidget(onTap: _handleImageUpload),
+                    ImageUploadWidget(onTap: _handleImageUpload),
 
-                      if (uploadedImageUrl != null) ...[
-                        const SizedBox(height: 8),
-                        Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.green, width: 2),
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.check_circle, color: Colors.green),
-                              SizedBox(width: 8),
-                              Text(
-                                'Image uploaded successfully',
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                    if (uploadedImageUrl != null) ...[
+                      const SizedBox(height: 8),
+                      Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.green, width: 2),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.check_circle, color: Colors.green),
+                            SizedBox(width: 8),
+                            Text(
+                              'Image uploaded successfully',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.w500,
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+
+                    const SizedBox(height: 20),
+
+                    SearchableAirportDropdown(
+                      label: 'Departure Airport',
+                      selectedAirport: selectedDepartureAirport,
+                      onChanged: (airport) =>
+                          setState(() => selectedDepartureAirport = airport),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    SearchableAirportDropdown(
+                      label: 'Arrival Airport',
+                      selectedAirport: selectedArrivalAirport,
+                      onChanged: (airport) =>
+                          setState(() => selectedArrivalAirport = airport),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    CustomDropdownWidget(
+                      label: 'Airline',
+                      selectedValue: selectedAirline,
+                      options: airlines,
+                      onChanged: (value) =>
+                          setState(() => selectedAirline = value),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    CustomDropdownWidget(
+                      label: 'Class',
+                      selectedValue: selectedClass,
+                      options: classOptions,
+                      onChanged: (value) =>
+                          setState(() => selectedClass = value),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    MessageTextFieldWidget(
+                      controller: messageController,
+                      hintText:
+                          'Write your message about the flight experience...',
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DatePickerWidget(
+                            selectedDate: selectedDate,
+                            onDateSelected: (date) =>
+                                setState(() => selectedDate = date),
+                            placeholder: 'Travel Date',
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime.now(),
+                          ),
+                        ),
+
+                        const SizedBox(width: 16),
+
+                        Expanded(
+                          child: StarRatingWidget(
+                            rating: rating,
+                            onRatingChanged: (newRating) =>
+                                setState(() => rating = newRating),
+                            label: 'Rating',
                           ),
                         ),
                       ],
+                    ),
 
-                      const SizedBox(height: 20),
+                    const SizedBox(height: 30),
 
-                      SearchableAirportDropdown(
-                        label: 'Departure Airport',
-                        selectedAirport: selectedDepartureAirport,
-                        onChanged: (airport) =>
-                            setState(() => selectedDepartureAirport = airport),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      SearchableAirportDropdown(
-                        label: 'Arrival Airport',
-                        selectedAirport: selectedArrivalAirport,
-                        onChanged: (airport) =>
-                            setState(() => selectedArrivalAirport = airport),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      CustomDropdownWidget(
-                        label: 'Airline',
-                        selectedValue: selectedAirline,
-                        options: airlines,
-                        onChanged: (value) =>
-                            setState(() => selectedAirline = value),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      CustomDropdownWidget(
-                        label: 'Class',
-                        selectedValue: selectedClass,
-                        options: classOptions,
-                        onChanged: (value) =>
-                            setState(() => selectedClass = value),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      MessageTextFieldWidget(
-                        controller: messageController,
-                        hintText:
-                            'Write your message about the flight experience...',
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DatePickerWidget(
-                              selectedDate: selectedDate,
-                              onDateSelected: (date) =>
-                                  setState(() => selectedDate = date),
-                              placeholder: 'Travel Date',
-                              firstDate: DateTime(2020),
-                              lastDate: DateTime.now(),
-                            ),
-                          ),
-
-                          const SizedBox(width: 16),
-
-                          Expanded(
-                            child: StarRatingWidget(
-                              rating: rating,
-                              onRatingChanged: (newRating) =>
-                                  setState(() => rating = newRating),
-                              label: 'Rating',
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      CustomElevatedButtonWidget(
-                        text: isSubmitting
-                            ? 'Submitting...'
-                            : 'Submit',
+                    // Moved button to the left
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: CustomElevatedButtonWidget(
+                        text: isSubmitting ? 'Submitting...' : 'Submit',
                         onPressed: _handleSubmit,
                         width: 200,
                       ),
+                    ),
 
-                      const SizedBox(height: 20),
-                    ],
-                  ),
+                    const SizedBox(height: 20),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -25,30 +25,57 @@ class DatePickerWidget extends StatelessWidget {
           initialDate: selectedDate ?? DateTime.now(),
           firstDate: firstDate ?? DateTime(2020),
           lastDate: lastDate ?? DateTime.now(),
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: Colors.black,
+                  onPrimary: Colors.white,
+                  surface: Colors.white,
+                  onSurface: Colors.black,
+                ),
+              ),
+              child: child!,
+            );
+          },
         );
         if (date != null) {
           onDateSelected(date);
         }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F5),
-          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          border: Border.all(color: Colors.grey[300]!, width: 1),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               selectedDate != null
                   ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
                   : placeholder,
               style: TextStyle(
-                color: selectedDate != null ? Colors.black : Colors.grey,
+                color: selectedDate != null ? Colors.black : Colors.grey[600],
                 fontSize: 14,
+                fontWeight: FontWeight.w400,
               ),
             ),
-            const Spacer(),
-            const Icon(Icons.calendar_today, color: Colors.grey, size: 20),
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: const Icon(
+                Icons.calendar_today,
+                color: Colors.black,
+                size: 16,
+              ),
+            ),
           ],
         ),
       ),
