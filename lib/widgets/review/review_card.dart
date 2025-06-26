@@ -23,6 +23,8 @@ class ReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isFromShareExperience = review.timeAgo == 'Just now';
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.only(top: 10),
@@ -37,20 +39,22 @@ class ReviewCard extends StatelessWidget {
           ReviewRouteInfo(review: review),
           ReviewText(review: review),
           if (review.imageUrl != null) ReviewImage(review: review),
-          const SizedBox(height: 10,),
+          const SizedBox(height: 10),
           ReviewLikesCommentsInfo(review: review),
           ReviewActionButtons(
             review: review,
             onLike: () => reviewController.likeReview(review.id),
             onShare: () => navigationController.shareReview(review.id),
           ),
-          if (review.commentsList.isNotEmpty)
-          
+          if (isFromShareExperience || review.commentsList.isNotEmpty)
             Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
-              child: ReviewCommentsSection(review: review)),
+              child: ReviewCommentsSection(review: review),
+            ),
         ],
       ),
     );
   }
+
+
 }

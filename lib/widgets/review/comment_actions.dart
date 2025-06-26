@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CommentActions extends StatefulWidget {
-  const CommentActions({super.key});
+  final bool hasComments;
+  final bool isFromShareExperience; // Add this parameter
+
+  const CommentActions({
+    super.key, 
+    this.hasComments = false,
+    this.isFromShareExperience = false, // Add this parameter
+  });
 
   @override
   State<CommentActions> createState() => _CommentActionsState();
@@ -21,19 +28,20 @@ class _CommentActionsState extends State<CommentActions> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 16, ),
-         
-          child: Text(
-            'See More Comments',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-              color: Colors.grey[700],
+        // Only show "See More Comments" if there are comments AND it's NOT from share experience
+        if (widget.hasComments && !widget.isFromShareExperience)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'See More Comments',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w800,
+                color: Colors.grey[700],
+              ),
             ),
           ),
-        ),
 
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -67,7 +75,7 @@ class _CommentActionsState extends State<CommentActions> {
                   decoration: BoxDecoration(
                     color: const Color(0xFFF2F2F8),
                     borderRadius: BorderRadius.circular(22),
-                    border: Border.all(color: const  Color(0xFFF2F2F8)),
+                    border: Border.all(color: const Color(0xFFF2F2F8)),
                   ),
                   child: Row(
                     children: [
@@ -75,7 +83,7 @@ class _CommentActionsState extends State<CommentActions> {
                         child: TextField(
                           controller: _commentController,
                           decoration: InputDecoration(
-                            hintText: 'Write Your Comment',
+                            hintText: 'Write your comment',
                             hintStyle: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[600],

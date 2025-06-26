@@ -11,14 +11,14 @@ class ReviewRouteInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
+      child: Wrap(
+        spacing: 5,
+        runSpacing: 4,
+        direction: Axis.horizontal,
         children: [
           InfoChip(text: review.route),
-          const SizedBox(width: 8),
           InfoChip(text: review.airline),
-          const SizedBox(width: 8),
           InfoChip(text: review.travelClass),
-          const SizedBox(width: 8),
           InfoChip(text: review.date),
         ],
       ),
